@@ -1,5 +1,7 @@
 # Informe de Seguridad, Privacidad y Ética en Sistema Académico
 **Integrantes** : Paolo Medrano Terán - César Pajuelo 
+
+
 **Curso**: Ética y seguridad de los Datos
 
 ## 1. Introdución 
