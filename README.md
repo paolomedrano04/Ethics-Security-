@@ -4,12 +4,6 @@
 
 **Curso**: Ética y seguridad de los Datos
 
-Mostrar siempre los detalles
-
-Copiar código
-# I will create the .md content for the user and save it to a file.
-
-markdown_content = """
 ## 1. Introducción 
 ## 2. Valor de los datos en el caso de negocio 
 
