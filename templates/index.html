@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Sistema Académico+</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">
+      <img src="{{ url_for('static', filename='img/utec-logo.png') }}" alt="UTEC"/>
+    </div>
+    <div class="profile">
+      <img src="{{ data.avatarurl }}" alt="Avatar">
+      <div>
+        <strong>{{ data.name.split(' ')[0] }}</strong>
+        <small>{{ data.id }}</small>
+      </div>
+    </div>
+    <nav class="side-nav">
+      <a href="{{ url_for('profile') }}"   class="{% if section=='profile'  %}active{% endif %}"><i class="fa-solid fa-house"></i> Inicio</a>
+      <a href="{{ url_for('courses') }}"   class="{% if section=='courses'  %}active{% endif %}"><i class="fa-solid fa-book-open"></i> Currícula</a>
+      <a href="{{ url_for('sessions') }}"  class="{% if section=='sessions' %}active{% endif %}"><i class="fa-solid fa-magnifying-glass"></i> Consultas</a>
+      <a href="{{ url_for('payments') }}"  class="{% if section=='payments' %}active{% endif %}"><i class="fa-solid fa-file-invoice-dollar"></i> Trámites</a>
+      <a href="#"><i class="fa-solid fa-globe"></i> GoPlatform</a>
+    </nav>
+    <a href="#" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+  </aside>
+
+  <div class="main-content">
+    <header class="header-banner">
+      <img src="{{ url_for('static', filename='img/utec-banner.jpg') }}" alt="UTEC Banner">
+    </header>
+
+    <section class="actions">
+      <div class="action-card"><i class="fa-solid fa-paint-brush"></i><span>Canvas</span></div>
+      <div class="action-card"><i class="fa-solid fa-file-circle-check"></i><span>Consulta de Trámites</span></div>
+      <div class="action-card"><i class="fa-solid fa-clipboard-list"></i><span>Encuestas</span></div>
+      <div class="action-card"><i class="fa-solid fa-file-signature"></i><span>Matrícula en Línea</span></div>
+      <div class="action-card"><i class="fa-solid fa-calendar-plus"></i><span>Prematrícula</span></div>
+      <div class="action-card"><i class="fa-solid fa-door-open"></i><span>Reserva de Ambientes</span></div>
+    </section>
+
+    <div class="dashboard-panels">
+      <div class="card calendar-card">
+        <h3>Mi Horario</h3>
+        <!-- Aquí podrías incrustar un calendario real o una imagen de ejemplo -->
+        <img src="{{ url_for('static', filename='img/calendar-sample.png') }}" alt="Calendario"/>
+      </div>
+      <div class="card payments-card">
+        <h3>Obligaciones Pendientes</h3>
+        <ul>
+          {% for p in data.pago %}
+            <li>
+              <strong>{{ p.descripcion }}</strong>
+              <small>{{ p.vencimiento }}</small>
+              <span>S/ {{ p.monto }}</span>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

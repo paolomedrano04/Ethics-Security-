@@ -1,0 +1,42 @@
+{
+  "id": 202220401,
+  "name": "Luciano Aguirre Jesfen",
+  "dni": 73580770,
+  "born_date": "1990-01-01",
+  "email": "luciano.aguirre@utec.edu.pe",
+  "address": "Calle General Borgonio 446",
+  "phone": "997637366",
+  "carreer": "Computer Science",
+  "avatarurl": "https://avatars.githubusercontent.com/u/202220401?v=4",
+  "sections": [
+    {
+      "section_name": "Laboratorio 1.0",
+      "course": {
+        "id": "CC103",
+        "name": "Programación I",
+        "finalGrade": { "grade": 20 },
+        "area": "Ciencias de la Computación",
+        "programm": "2021"
+      },
+      "sessions": [
+        {
+          "Initial_Hour": "2023-11-20T10:00",
+          "Final_Hour": "2023-11-20T12:00",
+          "modality": "Presencial",
+          "link": "https://zoom.com",
+          "classroom": "M603",
+          "state": "N/A"
+        }
+      ]
+    }
+  ],
+  "pago": [
+    {
+      "descripcion": "Pago de matrícula",
+      "mora": 0,
+      "vencimiento": "10/09/23",
+      "estado": "Pendiente",
+      "monto": 1000
+    }
+  ]
+}
