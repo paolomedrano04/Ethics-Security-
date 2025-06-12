@@ -1,3 +1,13 @@
+FastAPI app is running at: NgrokTunnel: "https://6055-34-138-228-242.ngrok-free.app" -> "http://localhost:8000"
+INFO:     Started server process [315]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     132.251.2.246:0 - "GET / HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET /favicon.ico HTTP/1.1" 404 Not Found
+INFO:     132.251.2.246:0 - "GET /login?registro_id=E00000003 HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET /student-dashboard?student_id=E00000003&course=mathematics HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET /student-dashboard?student_id=E00000003&course=portuguese HTTP/1.1" 200 OK
 INFO:     132.251.2.246:0 - "GET /student-dashboard?student_id=E00000003&course=mathematics HTTP/1.1" 200 OK
 INFO:     132.251.2.246:0 - "GET /student-dashboard?student_id=E00000003&course=portuguese HTTP/1.1" 200 OK
 INFO:     132.251.2.246:0 - "GET / HTTP/1.1" 200 OK
