@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil del Usuario</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Bienvenido, {{ session['user']['nombre'] }}</h1>
+        <p>Registro ID: {{ session['user']['registro_id'] }}</p>
+        <p>Correo: {{ session['user']['correo'] }}</p>
+
+        <h2>Estudiantes Registrados</h2>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Registro ID</th>
+                    <th>Nombre</th>
+                    <th>Correo</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                    <tr>
+                        <td>{{ student['registro_id'] }}</td>
+                        <td>{{ student['nombre1'] }} {{ student['apellido1'] }}</td>
+                        <td>{{ student['correo'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
