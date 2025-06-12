@@ -95,6 +95,50 @@ A continuación, se presentan los **KPIs (Indicadores Clave de Desempeño)** imp
 - En la fase de pruebas, los cálculos se realizan sobre los primeros 10 registros de cada curso para optimizar el rendimiento del sistema.
 - Las visualizaciones son interactivas, facilitando una exploración más rica por parte de los usuarios.
 
+### 4.4 Análisis Visual de KPIs Clave
+
+A continuación se presentan visualizaciones complementarias a los KPIs definidos, con su respectiva interpretación. Estas gráficas permiten enriquecer el análisis y brindar una comprensión más profunda del desempeño y comportamiento de los estudiantes.
+
+#### Distribución de Niveles de Ausentismo
+![Ausentismo](./templates/ausentismo.png)
+**Interpretación:**  
+La mayoría de los estudiantes (58%) presentan un nivel de ausentismo bajo (0-5 faltas), lo cual es un indicador positivo de compromiso y asistencia regular. Sin embargo, un 23.8% cae en un nivel moderado (6-10), y un 18.2% se encuentra en niveles altos o críticos (>10 faltas), lo que podría impactar negativamente su rendimiento académico. Es importante monitorear este segmento de estudiantes y considerar intervenciones preventivas.
+
+---
+
+#### Indicadores Clave de Rendimiento Académico
+
+![Indicadores Generales](./templates/INDICADORESGENERALES.png)
+
+**Interpretación:**  
+El análisis de los principales factores asociados al rendimiento académico muestra que:
+
+- La **tasa de aprobación general** alcanza el 50%, lo que indica que la mitad de los estudiantes logra aprobar ambas materias.
+- Un 17% presenta **ausentismo significativo** (>10 faltas), factor conocido por correlacionarse negativamente con el rendimiento.
+- Un 24% incurre en **consumo de alcohol de riesgo**, aspecto que podría afectar tanto el desempeño como la salud general de los estudiantes.
+- Solo un 10% reporta tener **acceso completo a recursos educativos**, lo que sugiere una oportunidad de mejora en la equidad y disponibilidad de herramientas de apoyo.
+
+Estos indicadores permiten priorizar estrategias institucionales para mejorar el entorno de aprendizaje.
+
+---
+
+#### Tasa de Aprobación
+![TasadeAprobacion](./templates/tasadeaprobación.png)
+
+**Interpretación:**  
+El análisis detallado de la tasa de aprobación revela:
+
+- Un 37% de los estudiantes aprueba ambas materias, evidenciando un desempeño académico sólido y equilibrado.
+- Un 16.2% aprueba únicamente Matemáticas, mientras que un 31.5% aprueba solo Portugués, lo que sugiere diferencias en el nivel de dificultad percibido o en el nivel de preparación en cada materia.
+- El 15.3% corresponde a estudiantes que no logran aprobar ninguna de las dos asignaturas, grupo que debe ser objeto de atención prioritaria en los planes de mejora académica.
+
+Este KPI proporciona una visión más granular que permite a los docentes y autoridades identificar patrones y áreas de refuerzo específicas.
+
+---
+
+**Conclusión:**  
+Estas visualizaciones complementan la gestión de KPIs del sistema académico, aportando insights valiosos para la toma de decisiones orientadas a mejorar el rendimiento académico y el bienestar de los estudiantes.
+
 ## **3. Protección de Datos según Normativas Locales e Internacionales**
 
 ### **3.1 Ley Peruana de Protección de Datos Personales**
