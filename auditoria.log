@@ -1,0 +1,14 @@
+INFO:     132.251.2.246:0 - "GET /student-dashboard?student_id=E00000003&course=mathematics HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET /student-dashboard?student_id=E00000003&course=portuguese HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET / HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET /login?registro_id=P00000003 HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET /teacher-dashboard?registro_id=P00000003&course=mathematics HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET /teacher-dashboard?registro_id=P00000003&course=portuguese&student_id=E00000039 HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET / HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET /login?registro_id=S00000005 HTTP/1.1" 404 Not Found
+INFO:     132.251.2.246:0 - "GET /login?registro_id=S00000001 HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET /supervisor-dashboard?registro_id=S00000001&course=mathematics HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET /supervisor-dashboard?registro_id=S00000001&course=portuguese HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET / HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET /login?registro_id=A00000003 HTTP/1.1" 200 OK
+INFO:     132.251.2.246:0 - "GET /admin-dashboard?registro_id=A00000003&course=mathematics HTTP/1.1" 200 OK
