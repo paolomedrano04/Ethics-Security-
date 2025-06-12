@@ -6,6 +6,7 @@ import random
 import time
 import smtplib
 from email.mime.text import MIMEText
+import hashlib
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'
@@ -84,7 +85,7 @@ def login():
         password = request.form.get('password', '')
         user = User.query.filter_by(correo=email).first()
 
-        if user and user.contraseña == password:
+        if user and user.contraseña == hashlib.sha256(password.encode()).hexdigest():
             verification_code = generate_verification_code()
             session['verification_email'] = email
             session['verification_code'] = verification_code
