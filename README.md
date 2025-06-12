@@ -8,6 +8,8 @@
 
 Este informe tiene como objetivo detallar las medidas de seguridad, privacidad y ética implementadas en el sistema académico distribuido. Se analiza el tratamiento de los datos académicos, la protección de la información personal de los estudiantes, y las estrategias utilizadas para garantizar la seguridad y el cumplimiento de normativas locales e internacionales.
 
+Se ha trabajado con Jupyter Notebooks a lo largo del proyecto donde cada uno de ellos ejemplifica como se realizaron las medidas de seguridad, lectura de datos, control de accesos y técnicas hashing y encriptación. Teniendo como base un entorno de unidad compartida en Google Drive :  [¡Unidad Compartida!](https://drive.google.com/drive/folders/0ABOxddMG3afxUk9PVA)
+
 ## 2. Valor de los datos en el caso de negocio 
 
 En este proyecto, se han definido varios **KPIs** para medir el valor generado por los datos y evaluar el impacto de las variables académicas, sociales y familiares en el rendimiento de los estudiantes. Se ha establecido una base de datos con la siguiente descripción de los atributos:
