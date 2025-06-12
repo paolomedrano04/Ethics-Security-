@@ -8,6 +8,8 @@
 
 Este informe tiene como objetivo detallar las medidas de seguridad, privacidad y ética implementadas en el sistema académico distribuido. Se analiza el tratamiento de los datos académicos, la protección de la información personal de los estudiantes, y las estrategias utilizadas para garantizar la seguridad y el cumplimiento de normativas locales e internacionales.
 
+Se ha trabajado con Jupyter Notebooks a lo largo del proyecto donde cada uno de ellos ejemplifica como se realizaron las medidas de seguridad, lectura de datos, control de accesos y técnicas hashing y encriptación. Teniendo como base un entorno de unidad compartida en Google Drive :  [¡Unidad Compartida!](https://drive.google.com/drive/folders/0ABOxddMG3afxUk9PVA)
+
 ## 2. Valor de los datos en el caso de negocio 
 
 En este proyecto, se han definido varios **KPIs** para medir el valor generado por los datos y evaluar el impacto de las variables académicas, sociales y familiares en el rendimiento de los estudiantes. Se ha establecido una base de datos con la siguiente descripción de los atributos:
@@ -205,15 +207,30 @@ El sistema restringe el acceso a los datos y funcionalidades del sistema según 
 - Los cálculos de progreso y KPIs son precomputados al inicio para mejorar la experiencia de usuario.
 - Se utilizan gráficos interactivos con Plotly y visualización HTML optimizada con Bootstrap.
 
+### **4.4 Registros de Auditoría (Logs)** 
+
+Se implementarán **registros de auditoría** para monitorear todas las actividades críticas del sistema, como accesos, modificaciones, y eliminaciones de datos. Estos registros permitirán detectar y responder rápidamente a actividades sospechosas, garantizando la integridad del sistema.
+
 ## 5. Estrategias de Privacidad de los Datos
+
+### **5.1 Políticas y Procedimientos**
+Las políticas de uso seguro de datos están basadas en el principio de **privilegio mínimo**, lo que asegura que cada usuario solo tiene acceso a la información necesaria para realizar su trabajo. Además, se establecerán **procedimientos formales** para la recolección, almacenamiento y eliminación de datos sensibles, asegurando que todo proceso esté documentado y alineado con los estándares internacionales.
+
+### **5.2 Concientización y Formación del Equipo**
+En la próxima fase, se implementará un programa de **concientización de seguridad** para todo el personal que tenga acceso al sistema. Este programa incluirá formación sobre **mejores prácticas de seguridad**, tales como la creación de contraseñas seguras y la identificación de intentos de phishing. La educación del equipo es esencial para mantener la seguridad, dado que muchas brechas de seguridad provienen de errores humanos.
 
 ## **6. Consideraciones Éticas en el Proyecto**
 
 
 ## **7. Plan de Respuesta ante Incidentes de Seguridad**
+ 
+En caso de una brecha de seguridad, el sistema cuenta con un **plan de respuesta ante incidentes** que incluye:
 
-## 8. Recomendaciones para Fortalecer la Seguridad
-
-
+1. **Detección rápida del incidente**: Utilizando los registros de auditoría y monitoreo en tiempo real.
+2. **Aislamiento del sistema**: En caso de detección de una fuga, se desconectarán los servidores comprometidos para evitar mayores filtraciones.
+3. **Recuperación y respaldo de datos**: Se implementarán **backups** periódicos y procedimientos de **recuperación ante desastres**, asegurando que los datos puedan ser restaurados rápidamente en caso de un ataque.
 ## 9. Conclusión
 
+El sistema académico ha sido diseñado con un enfoque integral de seguridad, privacidad y ética, protegiendo los datos personales y académicos de los estudiantes. Las medidas de seguridad implementadas incluyen autenticación de dos factores (2FA), encriptación de contraseñas mediante hashing, y un control de acceso basado en roles, asegurando que solo los usuarios autorizados accedan a la información pertinente.Los KPIs definidos permiten monitorear el progreso y ausencias, así como identificar áreas de mejora, mientras que las visualizaciones facilitan el análisis.
+
+En resumen, el sistema no solo optimiza el rendimiento académico, sino que también asegura un entorno educativo ético, transparente y seguro, alineado con las mejores prácticas de protección de datos.
