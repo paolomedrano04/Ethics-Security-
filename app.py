@@ -1,26 +1,73 @@
-from flask import Flask, render_template, request, redirect, url_for, session
-import json
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
-import random, string, time
+import json
+import random
+import time
+import smtplib
+from email.mime.text import MIMEText
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'  # Cámbialo por algo seguro
+app.secret_key = 'your_secret_key_here'
 
-# Cargo datos de tu JSON
+# Configuración de la base de datos PostgreSQL
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:1234@localhost:5432/sistacademico'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+# Modelo vinculado exactamente a la tabla "Users"
+class User(db.Model):
+    __tablename__ = 'Users'
+
+    registro_id = db.Column(db.String, primary_key=True)
+    nombre1 = db.Column(db.String)
+    nombre2 = db.Column(db.String)
+    apellido1 = db.Column(db.String)
+    apellido2 = db.Column(db.String)
+    correo = db.Column(db.String, unique=True)
+    contraseña = db.Column(db.String)
+
+# Carga de datos desde JSON
 with open('data.json', encoding='utf-8') as f:
     data = json.load(f)
 
-# Usuarios de ejemplo
-users = {
-    "estudiante@utec.edu.pe":   {"password": "pass1", "role": "student",    "id": "20200001"},
-    "profesor@utec.edu.pe":     {"password": "pass2", "role": "teacher",    "id": "P001", "verification_code": ""},
-    "supervisor@utec.edu.pe":   {"password": "pass3", "role": "supervisor","id": "S001", "verification_code": ""},
-    "admin@utec.edu.pe":        {"password": "pass4", "role": "admin",      "id": "A001", "verification_code": ""}
-}
+# Configuración para envío de códigos de verificación con Mailtrap
+SMTP_SERVER = "sandbox.smtp.mailtrap.io"
+SMTP_PORT = 2525
+SMTP_USER = "b34e42697ead79"  # tu usuario real de Mailtrap
+SMTP_PASSWORD = "7a4b577288a4c0"     # tu contraseña real de Mailtrap
 
-VERIFICATION_ROLES = ["teacher", "supervisor", "admin"]
+def send_verification_code(email, code):
+    try:
+        subject = "Código de verificación - Sistema Académico UTEC"
+        body = f"""
+        Estimado usuario,
 
-# Decorador para rutas que requieren login
+        Su código de verificación es: {code}
+
+        Este código es válido por 5 minutos. No comparta este código con nadie.
+
+        Atentamente,
+        Equipo de Sistemas UTEC
+        """
+
+        msg = MIMEText(body)
+        msg['Subject'] = subject
+        msg['From'] = SMTP_USER
+        msg['To'] = email
+
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+            server.starttls()
+            server.login(SMTP_USER, SMTP_PASSWORD)
+            server.sendmail(SMTP_USER, [email], msg.as_string())
+        return True
+    except Exception as e:
+        print(f"Error enviando email: {e}")
+        return False
+
+def generate_verification_code():
+    return ''.join(random.choices('0123456789', k=6))
+
 def login_required(f):
     @wraps(f)
     def wrapped(*args, **kwargs):
@@ -29,60 +76,27 @@ def login_required(f):
         return f(*args, **kwargs)
     return wrapped
 
-# Decorador para roles específicos (no usado aquí, pero queda listo)
-def role_required(*roles):
-    def decorator(f):
-        @wraps(f)
-        def wrapped(*args, **kwargs):
-            if 'user' not in session:
-                return redirect(url_for('login'))
-            if session['user']['role'] not in roles:
-                return render_template('unauthorized.html'), 403
-            return f(*args, **kwargs)
-        return wrapped
-    return decorator
-
-def generate_verification_code():
-    return ''.join(random.choices(string.digits, k=6))
-
-def send_verification_code(email, code):
-    print(f"\n=== CÓDIGO DE VERIFICACIÓN PARA {email} ===")
-    print(f"Su código es: {code}")
-    print("Este código es válido por 5 minutos")
-    print("===================================\n")
-    # Aquí iría el envío real por email/SMS
-
-# --- RUTAS PUBLICAS ---
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     error = None
     if request.method == 'POST':
-        email    = request.form.get('email','').strip()
-        password = request.form.get('password','')
-        user = users.get(email)
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '')
+        user = User.query.filter_by(correo=email).first()
 
-        if user and user['password'] == password:
-            # Si necesita verificación de código
-            if user['role'] in VERIFICATION_ROLES:
-                code = generate_verification_code()
-                users[email]['verification_code'] = code
-                users[email]['code_expiration'] = time.time() + 300
-                send_verification_code(email, code)
-                session['verification_email'] = email
+        if user and user.contraseña == password:
+            verification_code = generate_verification_code()
+            session['verification_email'] = email
+            session['verification_code'] = verification_code
+            session['code_expiration'] = time.time() + 300
+
+            if send_verification_code(email, verification_code):
                 return redirect(url_for('verify_code'))
-
-            # Login directo
-            session['user'] = {
-                'email': email,
-                'role':  user['role'],
-                'id':    user['id']
-            }
-            return redirect(url_for('profile'))
-
-        error = "Credenciales inválidas"
+            else:
+                error = "Error al enviar el código de verificación"
+        else:
+            error = "Credenciales inválidas"
     return render_template('login.html', error=error)
-
 
 @app.route('/verify-code', methods=['GET', 'POST'])
 def verify_code():
@@ -93,40 +107,47 @@ def verify_code():
     error = None
 
     if request.method == 'POST':
-        entered = request.form.get('code','')
-        stored  = users[email].get('verification_code','')
-        exp     = users[email].get('code_expiration', 0)
+        entered_code = request.form.get('code', '').strip()
+        stored_code = session.get('verification_code')
+        expiration = session.get('code_expiration', 0)
 
-        if time.time() > exp:
-            error = "El código ha expirado. Solicita uno nuevo."
-        elif entered == stored:
-            # Verificado, guardo user en sesión
+        if time.time() > expiration:
+            error = "El código ha expirado. Por favor inicie sesión nuevamente."
+        elif entered_code == stored_code:
+            user = User.query.filter_by(correo=email).first()
             session['user'] = {
-                'email': email,
-                'role':  users[email]['role'],
-                'id':    users[email]['id']
+                'correo': user.correo,
+                'nombre': f"{user.nombre1} {user.apellido1}",
+                'registro_id': user.registro_id
             }
             session.pop('verification_email', None)
+            session.pop('verification_code', None)
+            session.pop('code_expiration', None)
             return redirect(url_for('profile'))
         else:
-            error = "Código incorrecto"
+            error = "Código incorrecto. Intente nuevamente."
 
-    return render_template('verify_code.html', error=error)
-
+    return render_template('verify_code.html', error=error, email=email)
 
 @app.route('/resend-code')
 def resend_code():
     if 'verification_email' not in session:
         return redirect(url_for('login'))
+
     email = session['verification_email']
-    code  = generate_verification_code()
-    users[email]['verification_code'] = code
-    users[email]['code_expiration'] = time.time() + 300
-    send_verification_code(email, code)
-    return render_template('verify_code.html', success="Nuevo código enviado correctamente")
+    verification_code = generate_verification_code()
+    session['verification_code'] = verification_code
+    session['code_expiration'] = time.time() + 300
 
+    if send_verification_code(email, verification_code):
+        return render_template('verify_code.html', success="¡Nuevo código enviado!", email=email)
+    else:
+        return render_template('verify_code.html', error="Error al reenviar el código", email=email)
 
-# --- RUTAS PROTEGIDAS ---
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect(url_for('login'))
 
 @app.route('/')
 @login_required
@@ -147,14 +168,6 @@ def sessions():
 @login_required
 def payments():
     return render_template('index.html', section='payments', data=data)
-
-
-# Ruta para logout
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(url_for('login'))
-
 
 if __name__ == '__main__':
     app.run(ssl_context=('cert/cert.crt', 'cert/key.pem'), debug=True)
