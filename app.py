@@ -7,6 +7,8 @@ import time
 import smtplib
 from email.mime.text import MIMEText
 import hashlib
+from sqlalchemy import Table, MetaData
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key_here'
@@ -35,8 +37,14 @@ with open('data.json', encoding='utf-8') as f:
 # Configuración para envío de códigos de verificación con Mailtrap
 SMTP_SERVER = "sandbox.smtp.mailtrap.io"
 SMTP_PORT = 2525
-SMTP_USER = "b34e42697ead79"  # tu usuario real de Mailtrap
-SMTP_PASSWORD = "7a4b577288a4c0"     # tu contraseña real de Mailtrap
+SMTP_USER = "b34e42697ead79"
+SMTP_PASSWORD = "7a4b577288a4c0"
+
+def get_students_table():
+    with app.app_context():
+        metadata = MetaData()
+        students_table = Table('Students', metadata, autoload_with=db.engine)
+        return students_table
 
 def send_verification_code(email, code):
     try:
@@ -153,7 +161,22 @@ def logout():
 @app.route('/')
 @login_required
 def profile():
-    return render_template('index.html', section='profile', data=data)
+    students_table = get_students_table()
+    query = students_table.select().limit(100)
+    result = db.session.execute(query)
+    students = [dict(row) for row in result.mappings()]
+    
+    column_names = students_table.columns.keys()
+    
+    # Obtener fecha actual formateada
+    current_date = datetime.now().strftime("%Y.%m.%d (%H):%M:%S")
+    
+    return render_template('index.html', 
+                         section='profile', 
+                         students=students,
+                         column_names=column_names,
+                         current_date=current_date,
+                         data=data)
 
 @app.route('/courses')
 @login_required

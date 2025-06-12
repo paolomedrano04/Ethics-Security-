@@ -1,44 +1,198 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <!-- ... (código existente) ... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTEC - Sistema Académico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
-  {% if 'user' not in session %}
-    <script>
-      window.location.href = "{{ url_for('login') }}";
-    </script>
-  {% endif %}
-
-  <aside class="sidebar">
-    <div class="logo">
-      <img src="{{ url_for('static', filename='img/utec-logo.png') }}" alt="UTEC"/>
-    </div>
-    <div class="profile">
-      <img src="{{ data.avatarurl }}" alt="Avatar">
-      <div>
-        <strong>{{ data.name.split(' ')[0] }}</strong>
-        <small>{{ session.user.id }}</small>
-        <small class="role-badge">{{ session.user.role | capitalize }}</small>
-      </div>
-    </div>
-    <nav class="side-nav">
-      <a href="{{ url_for('profile') }}"   class="{% if section=='profile'  %}active{% endif %}"><i class="fa-solid fa-house"></i> Inicio</a>
-      <a href="{{ url_for('courses') }}"   class="{% if section=='courses'  %}active{% endif %}"><i class="fa-solid fa-book-open"></i> Currícula</a>
-      
-      {% if session.user.role in ['teacher', 'supervisor', 'admin'] %}
-      <a href="{{ url_for('sessions') }}"  class="{% if section=='sessions' %}active{% endif %}"><i class="fa-solid fa-magnifying-glass"></i> Consultas</a>
-      {% endif %}
-      
-      {% if session.user.role == 'admin' %}
-      <a href="{{ url_for('payments') }}"  class="{% if section=='payments' %}active{% endif %}"><i class="fa-solid fa-file-invoice-dollar"></i> Trámites</a>
-      {% endif %}
-      
-      <a href="#"><i class="fa-solid fa-globe"></i> GoPlatform</a>
+    <!-- Barra de navegación superior -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="{{ url_for('static', filename='img/ausentismo.png') }}" alt="UTEC Logo" height="40">
+                Sistema Académico UTEC
+            </a>
+            <div class="d-flex align-items-center">
+                <span class="navbar-text me-3">
+                    <i class="fas fa-user-circle me-2"></i>Bienvenido, {{ session.user.nombre }}
+                </span>
+                <a href="{{ url_for('logout') }}" class="btn btn-outline-light">
+                    <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                </a>
+            </div>
+        </div>
     </nav>
-    <a href="{{ url_for('logout') }}" class="logout"><i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión</a>
-  </aside>
 
-  <!-- ... (resto del código existente) ... -->
+    <!-- Contenedor principal -->
+    <div class="container-fluid mt-0">
+        <div class="row">
+            <!-- Menú lateral -->
+            <div class="col-lg-2 sidebar d-none d-lg-block">
+                <div class="position-sticky pt-3">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="{{ url_for('profile') }}">
+                                <i class="fas fa-graduation-cap"></i> Estudiantes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('courses') }}">
+                                <i class="fas fa-book"></i> Cursos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('sessions') }}">
+                                <i class="fas fa-calendar-alt"></i> Sesiones
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('payments') }}">
+                                <i class="fas fa-money-bill-wave"></i> Pagos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-chart-bar"></i> Reportes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-cog"></i> Configuración
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Contenido principal -->
+            <main class="col-lg-10 main-content">
+                <!-- Encabezado del contenido -->
+                <div class="content-header">
+                    <h2>
+                        <i class="fas fa-users"></i> Registros de Estudiantes
+                    </h2>
+                    <div class="d-flex">
+                        <div class="input-group me-2" style="width: 300px;">
+                            <input type="text" class="form-control" placeholder="Buscar estudiante...">
+                            <button class="btn btn-primary" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                        <button class="btn btn-outline-primary me-2">
+                            <i class="fas fa-filter"></i> Filtrar
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Nuevo Estudiante
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabla de estudiantes con desplazamiento horizontal -->
+                <div class="table-responsive-container">
+                    <div class="scroll-hint">
+                        Desplázate horizontalmente <i class="fas fa-arrow-right"></i>
+                    </div>
+                    
+                    <div class="table-responsive" id="student-table">
+                        <table class="table">
+                            <thead class="sticky-header">
+                                <tr>
+                                    {% for column in column_names %}
+                                    <th>{{ column }}</th>
+                                    {% endfor %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student in students %}
+                                <tr>
+                                    {% for column in column_names %}
+                                    <td data-value="{{ student[column] }}">{{ student[column] }}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-nav">
+                        <button id="scroll-left">
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <button id="scroll-right">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pie de tabla -->
+                <div class="table-footer">
+                    <div class="table-info">
+                        Mostrando {{ students|length }} registros de estudiantes
+                    </div>
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+                <!-- Barra de acciones y fecha -->
+                <div class="action-bar">
+                    <div class="current-date">
+                        <i class="far fa-calendar me-2"></i>Fecha: {{ current_date }}
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn btn-outline-primary">
+                            <i class="fas fa-file-export me-2"></i>Exportar
+                        </button>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-sync-alt me-2"></i>Actualizar
+                        </button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Funcionalidad para el desplazamiento horizontal
+        const tableContainer = document.querySelector('.table-responsive');
+        const scrollLeftBtn = document.getElementById('scroll-left');
+        const scrollRightBtn = document.getElementById('scroll-right');
+        const scrollHint = document.querySelector('.scroll-hint');
+        
+        // Ocultar el indicador después de 5 segundos
+        setTimeout(() => {
+            scrollHint.style.opacity = '0';
+            setTimeout(() => scrollHint.style.display = 'none', 500);
+        }, 5000);
+        
+        // Control de desplazamiento izquierda
+        scrollLeftBtn.addEventListener('click', () => {
+            tableContainer.scrollBy({ left: -300, behavior: 'smooth' });
+        });
+        
+        // Control de desplazamiento derecha
+        scrollRightBtn.addEventListener('click', () => {
+            tableContainer.scrollBy({ left: 300, behavior: 'smooth' });
+        });
+    </script>
 </body>
 </html>
