@@ -1,5 +1,5 @@
 # Informe de Seguridad, Privacidad y Ética en Sistema Académico
-**Integrantes** : Paolo Medrano Terán - César Pajuelo 
+**Integrantes** : Paolo Medrano Terán 100% - César Pajuelo 100&
 
 
 **Curso**: Ética y seguridad de los Datos
@@ -221,7 +221,18 @@ En la próxima fase, se implementará un programa de **concientización de segur
 
 ## **6. Consideraciones Éticas en el Proyecto**
 
+La implementación de sistemas que gestionan información sensible y personal, como el caso de este sistema académico, involucra una responsabilidad ética significativa. A continuación, se detallan las consideraciones éticas clave que se han tomado en cuenta durante el desarrollo y operación del sistema:
 
+- **Privacidad** : Se asegura que solo los usuarios autorizados accedan a la información sensible, mediante el control de acceso basado en roles (Estudiantes, Profesores, Supervisores y Administradores).
+
+- **Transparencia** : Los estudiantes son informados sobre cómo se recopilan y usan sus datos. Solo se recogen datos necesarios para el análisis del rendimiento académico.
+
+- **Confidencialidad** : Se utiliza encriptación y hashing para proteger las contraseñas y otros datos sensibles.
+
+- **Responsabilidad**: Los administradores del sistema tienen la responsabilidad de monitorear el uso adecuado de los datos y actuar rápidamente ante cualquier brecha de seguridad.
+
+- **Consentimiento**:  Se asegura que los usuarios otorguen su consentimiento explícito para el procesamiento de sus datos al registrarse en el sistema.
+ 
 ## **7. Plan de Respuesta ante Incidentes de Seguridad**
  
 En caso de una brecha de seguridad, el sistema cuenta con un **plan de respuesta ante incidentes** que incluye:
