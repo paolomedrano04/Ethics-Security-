@@ -56,12 +56,44 @@ En este proyecto, se han definido varios **KPIs** para medir el valor generado p
 40. **G3_por**: Calificación final en portugués (0-20).
 41. **registro_id**: Identificador único del registro del estudiante.
 
-Los **KPIs** propuestos permitirán monitorear el progreso de los estudiantes, identificar áreas de mejora y optimizar las intervenciones educativas. A continuación, se presentan los **KPIs (Indicadores Clave de Desempeño)** para el análisis:
+Los **KPIs** propuestos permiten monitorear el progreso de los estudiantes, identificar áreas de mejora y optimizar las intervenciones educativas. Están diseñados para proporcionar insights tanto a nivel individual (por estudiante) como a nivel agregado (por curso o grupo).
 
+A continuación, se presentan los **KPIs (Indicadores Clave de Desempeño)** implementados en el sistema:
 
-- **Tasa de Absentismo Relacionada con el rendimiento académico **
-- **Relación entre tiempos de estudio y notas (G3) por materia**
-- **Rendimiento académico promedio por grupo de estudiantes (Aprobatorios y Desaprobatorios )**
+- **Tasa de Aprobación General (Cross-Materia):**  
+  Mide el éxito académico global considerando ambas materias principales (Matemáticas y Portugués).  
+  Un estudiante se considera aprobado si obtiene una nota ≥ 10.5 en ambas asignaturas.  
+  Este KPI permite identificar si los estudiantes mantienen un rendimiento equilibrado entre diferentes áreas del conocimiento.
+
+- **Tasa de Absentismo Relacionada con el Rendimiento Académico:**  
+  Evalúa la relación entre el número de ausencias y las calificaciones finales (G3).  
+  Se utiliza un gráfico de dispersión (scatter plot) con línea de tendencia para visualizar el impacto potencial del absentismo en el rendimiento.  
+  Este KPI permite detectar patrones de bajo rendimiento asociados con altos niveles de ausencias.
+
+- **Relación entre Tiempos de Estudio y Notas (G3) por Materia:**  
+  Mide la relación entre el tiempo dedicado al estudio (`studytime`) y la nota final G3, diferenciada por curso.  
+  Se utiliza un gráfico de caja (boxplot) para visualizar cómo varían las calificaciones en función de los diferentes niveles de tiempo de estudio.  
+  Este KPI ayuda a entender si mayores tiempos de estudio están efectivamente correlacionados con mejores resultados académicos.
+
+- **Rendimiento Académico Promedio por Grupo de Estudiantes (Aprobados vs Desaprobados):**  
+  Analiza y compara las calificaciones finales (G3) de estudiantes clasificados en dos grupos:
+  - **Aprobados:** nota final G3 ≥ 10.5
+  - **Desaprobados:** nota final G3 < 10.5  
+  Se utiliza un gráfico de caja para visualizar la distribución de calificaciones en cada grupo.  
+  Este KPI permite evaluar el nivel de dispersión y consistencia dentro de cada grupo y facilita la identificación de tendencias en el rendimiento global del curso.
+
+- **Distribución de Calificaciones con Análisis Individual (Student-Level Insight):**  
+  Para cada estudiante, se genera un análisis personalizado que muestra:
+  - Su posición relativa en la distribución de calificaciones mediante un boxplot con su nota destacada.
+  - Un texto interpretativo que contextualiza su nota en relación a los cuartiles del curso (**¡Te ayudo a entender tus notas!**).  
+  Este KPI, de carácter individual, busca fomentar la auto-reflexión del estudiante y promover acciones de mejora personalizadas.
+
+---
+
+**Notas adicionales:**
+- Los KPIs están diseñados para ser dinámicos y adaptables al filtro de curso seleccionado.
+- En la fase de pruebas, los cálculos se realizan sobre los primeros 10 registros de cada curso para optimizar el rendimiento del sistema.
+- Las visualizaciones son interactivas, facilitando una exploración más rica por parte de los usuarios.
 
 ## **3. Protección de Datos según Normativas Locales e Internacionales**
 
@@ -80,18 +112,51 @@ Para garantizar que solo usuarios autorizados accedan al sistema, se ha implemen
 
 Las contraseñas de los usuarios se protegen mediante hashing utilizando el algoritmo bcrypt, una técnica que asegura que las contraseñas no puedan ser revertidas a su formato original. Esta protección es crucial para garantizar la confidencialidad de las credenciales de acceso, incluso en el caso de una brecha de seguridad en la base de datos. Además, se utiliza encriptación de datos en tránsito y en reposo para proteger toda la información sensible mientras se encuentra almacenada o en comunicación a través de redes.
 
+
+
 ### 4.3 Gestión de Accesos Basada en Roles
-El sistema restringe el acceso a los datos y funcionalidades del sistema según el rol asignado a cada usuario:
 
-- **Estudiantes:** Tienen acceso limitado a su propio perfil y rendimiento académico.
-- **Profesores:** Pueden consultar y modificar los registros de los estudiantes de sus clases asignadas.
+El sistema restringe el acceso a los datos y funcionalidades del sistema según el rol asignado a cada usuario. Los accesos han sido diseñados considerando buenas prácticas de privacidad y diferenciación de funciones:
 
-- **Supervisores:**  Tienen permisos adicionales para revisar y generar reportes de rendimiento académico de múltiples clases.
+- **Estudiantes:**  
+  Tienen acceso limitado a su propio perfil y rendimiento académico.  
+  Su dashboard incluye:
+  - Visualización de sus calificaciones (G1, G2, G3), número de ausencias y progreso en el curso.
+  - Gráficos comparativos respecto a la distribución general del curso.
+  - Un boxplot interactivo que les muestra la posición relativa de su nota final.
+  - Una sección de análisis textual personalizada llamada **“¡Te ayudo a entender tus notas!”** que les proporciona una interpretación de su rendimiento.
 
-- **Administradores:** Tienen acceso completo a todos los datos del sistema, incluidos los datos de todos los usuarios, así como la capacidad de gestionar configuraciones del sistema y aplicar medidas de seguridad.
+- **Profesores:**  
+  Pueden consultar los registros de los estudiantes de sus clases asignadas.  
+  Su dashboard permite:
+  - Filtrar por curso (Matemáticas o Portugués).
+  - Visualizar KPIs globales como:
+    - Tasa de absentismo vs rendimiento académico.
+    - Relación entre tiempos de estudio y notas (G3).
+    - Rendimiento promedio por grupo de estudiantes (aprobado / desaprobado).
+  - Al seleccionar un estudiante específico, el profesor accede a una vista detallada equivalente a la del estudiante:
+    - Resumen de calificaciones.
+    - Gráficos comparativos.
+    - Boxplot con la nota del estudiante resaltada.
+    - Análisis textual personalizado de su rendimiento.
 
-Este control de acceso garantiza que cada usuario solo acceda a la información necesaria para cumplir con sus responsabilidades, minimizando el riesgo de exposición de datos.
+- **Supervisores:**  
+  Tienen permisos adicionales para revisar y generar reportes de rendimiento académico de múltiples clases.  
+  Su acceso está restringido a datos no sensibles, ocultando información personal y comportamental.  
+  El dashboard les permite explorar datos generales por curso, sin acceso a los campos definidos como sensibles.
 
+- **Administradores:**  
+  Tienen acceso completo a todos los datos del sistema, incluidos los datos de todos los usuarios, sin restricciones.  
+  Además, pueden cambiar configuraciones del sistema y aplicar medidas de seguridad.  
+  Su dashboard ofrece la vista completa de los registros, incluyendo todos los campos, tanto generales como sensibles.
+
+---
+
+**Notas de implementación:**
+- El acceso está controlado dinámicamente según el prefijo del `registro_id` (E, P, S, A).
+- La visualización y el filtrado de datos se limitan a los primeros 10 registros por rol en la fase de pruebas, para garantizar rendimiento óptimo durante la demo.
+- Los cálculos de progreso y KPIs son precomputados al inicio para mejorar la experiencia de usuario.
+- Se utilizan gráficos interactivos con Plotly y visualización HTML optimizada con Bootstrap.
 
 ## 5. Estrategias de Privacidad de los Datos
 
