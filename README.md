@@ -14,47 +14,50 @@ En este proyecto, se han definido varios **KPIs** para medir el valor generado p
 
 ### Descripción de Atributos
 
-1. **student_id**: Identificador único para cada estudiante.
-2. **school**: Nombre de la escuela ("GP" o "MS").
-3. **sex**: Sexo del estudiante ("F" para femenino, "M" para masculino).
-4. **age**: Edad del estudiante (de 15 a 22 años).
-5. **address**: Tipo de dirección del estudiante ("U" para urbano, "R" para rural).
-6. **famsize**: Tamaño de la familia ("LE3" para menos de 3 miembros, "GT3" para más de 3 miembros).
-7. **Pstatus**: Estado de convivencia de los padres ("T" para juntos, "A" para separados).
-8. **Medu**: Nivel educativo de la madre (de 0 a 4).
-9. **Fedu**: Nivel educativo del padre (de 0 a 4).
-10. **Mjob**: Ocupación de la madre ("teacher", "health", "services", "at_home", "other").
-11. **Fjob**: Ocupación del padre ("teacher", "health", "services", "at_home", "other").
-12. **reason**: Razón para elegir la escuela ("home", "reputation", "course", "other").
-13. **guardian**: Tutor del estudiante ("mother", "father", "other").
-14. **Dalc**: Consumo de alcohol durante los días laborables (1-5).
-15. **Walc**: Consumo de alcohol durante los fines de semana (1-5).
-16. **health**: Estado de salud del estudiante (1-5).
-17. **freetime**: Tiempo libre después de la escuela (1-5).
-18. **famrel**: Calidad de las relaciones familiares (1-5).
-19. **romantic**: Relación romántica ("yes" o "no").
-20. **nursery**: Asistió a la escuela infantil ("yes" o "no").
-21. **higher**: Deseo de continuar con educación superior ("yes" o "no").
-22. **internet**: Acceso a internet en casa ("yes" o "no").
-23. **paid**: Clases adicionales pagadas ("yes" o "no").
-24. **famsup**: Apoyo educativo familiar ("yes" o "no").
-25. **traveltime**: Tiempo de viaje a la escuela (1-4).
-26. **activities**: Participación en actividades extracurriculares ("yes" o "no").
-27. **goout**: Frecuencia de salidas con amigos (1-5).
-28. **absences**: Número de ausencias escolares (de 0 a 93).
-29. **studytime_mat**: Tiempo de estudio en matemáticas (1-4).
-30. **failures_mat**: Número de fracasos en matemáticas.
-31. **schoolsup_mat**: Apoyo escolar adicional en matemáticas ("yes" o "no").
-32. **G1_mat**: Calificación del primer periodo de matemáticas (0-20).
-33. **G2_mat**: Calificación del segundo periodo de matemáticas (0-20).
-34. **G3_mat**: Calificación final en matemáticas (0-20).
-35. **studytime_por**: Tiempo de estudio en portugués (1-4).
-36. **failures_por**: Número de fracasos en portugués.
-37. **schoolsup_por**: Apoyo escolar adicional en portugués ("yes" o "no").
-38. **G1_por**: Calificación del primer periodo de portugués (0-20).
-39. **G2_por**: Calificación del segundo periodo de portugués (0-20).
-40. **G3_por**: Calificación final en portugués (0-20).
-41. **registro_id**: Identificador único del registro del estudiante.
+| Campo                | Descripción |
+|----------------------|-------------|
+| **student_id**       | Identificador único para cada estudiante. |
+| **school**           | Nombre de la escuela ("GP" o "MS"). |
+| **sex**              | Sexo del estudiante ("F" para femenino, "M" para masculino). |
+| **age**              | Edad del estudiante (de 15 a 22 años). |
+| **address**          | Tipo de dirección del estudiante ("U" para urbano, "R" para rural). |
+| **famsize**          | Tamaño de la familia ("LE3" para ≤ 3 miembros, "GT3" para > 3 miembros). |
+| **Pstatus**          | Estado de convivencia de los padres ("T" para juntos, "A" para separados). |
+| **Medu**             | Nivel educativo de la madre (de 0 a 4). |
+| **Fedu**             | Nivel educativo del padre (de 0 a 4). |
+| **Mjob**             | Ocupación de la madre ("teacher", "health", "services", "at_home", "other"). |
+| **Fjob**             | Ocupación del padre ("teacher", "health", "services", "at_home", "other"). |
+| **reason**           | Razón para elegir la escuela ("home", "reputation", "course", "other"). |
+| **guardian**         | Tutor del estudiante ("mother", "father", "other"). |
+| **Dalc**             | Consumo de alcohol durante los días laborables (1-5). |
+| **Walc**             | Consumo de alcohol durante los fines de semana (1-5). |
+| **health**           | Estado de salud del estudiante (1-5). |
+| **freetime**         | Tiempo libre después de la escuela (1-5). |
+| **famrel**           | Calidad de las relaciones familiares (1-5). |
+| **romantic**         | Relación romántica ("yes" o "no"). |
+| **nursery**          | Asistió a la escuela infantil ("yes" o "no"). |
+| **higher**           | Deseo de continuar con educación superior ("yes" o "no"). |
+| **internet**         | Acceso a internet en casa ("yes" o "no"). |
+| **paid**             | Clases adicionales pagadas ("yes" o "no"). |
+| **famsup**           | Apoyo educativo familiar ("yes" o "no"). |
+| **traveltime**       | Tiempo de viaje a la escuela (1-4). |
+| **activities**       | Participación en actividades extracurriculares ("yes" o "no"). |
+| **goout**            | Frecuencia de salidas con amigos (1-5). |
+| **absences**         | Número de ausencias escolares (de 0 a 93). |
+| **studytime_mat**    | Tiempo de estudio en matemáticas (1-4). |
+| **failures_mat**     | Número de fracasos en matemáticas. |
+| **schoolsup_mat**    | Apoyo escolar adicional en matemáticas ("yes" o "no"). |
+| **G1_mat**           | Calificación del primer periodo de matemáticas (0-20). |
+| **G2_mat**           | Calificación del segundo periodo de matemáticas (0-20). |
+| **G3_mat**           | Calificación final en matemáticas (0-20). |
+| **studytime_por**    | Tiempo de estudio en portugués (1-4). |
+| **failures_por**     | Número de fracasos en portugués. |
+| **schoolsup_por**    | Apoyo escolar adicional en portugués ("yes" o "no"). |
+| **G1_por**           | Calificación del primer periodo de portugués (0-20). |
+| **G2_por**           | Calificación del segundo periodo de portugués (0-20). |
+| **G3_por**           | Calificación final en portugués (0-20). |
+| **registro_id**      | Identificador único del registro del estudiante. |
+
 
 Los **KPIs** propuestos permiten monitorear el progreso de los estudiantes, identificar áreas de mejora y optimizar las intervenciones educativas. Están diseñados para proporcionar insights tanto a nivel individual (por estudiante) como a nivel agregado (por curso o grupo).
 
