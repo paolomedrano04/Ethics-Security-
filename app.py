@@ -1,3 +1,4 @@
+# app.py
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
@@ -7,7 +8,7 @@ import time
 import smtplib
 from email.mime.text import MIMEText
 import hashlib
-from sqlalchemy import Table, MetaData
+from sqlalchemy import Table, MetaData, select
 from datetime import datetime
 
 app = Flask(__name__)
@@ -21,23 +22,22 @@ db = SQLAlchemy(app)
 # Modelo vinculado exactamente a la tabla "Users"
 class User(db.Model):
     __tablename__ = 'Users'
-
     registro_id = db.Column(db.String, primary_key=True)
-    nombre1 = db.Column(db.String)
-    nombre2 = db.Column(db.String)
-    apellido1 = db.Column(db.String)
-    apellido2 = db.Column(db.String)
-    correo = db.Column(db.String, unique=True)
-    contraseña = db.Column(db.String)
+    nombre1     = db.Column(db.String)
+    nombre2     = db.Column(db.String)
+    apellido1   = db.Column(db.String)
+    apellido2   = db.Column(db.String)
+    correo      = db.Column(db.String, unique=True)
+    contraseña  = db.Column(db.String)
 
 # Carga de datos desde JSON
 with open('data.json', encoding='utf-8') as f:
     data = json.load(f)
 
-# Configuración para envío de códigos de verificación con Mailtrap
-SMTP_SERVER = "sandbox.smtp.mailtrap.io"
-SMTP_PORT = 2525
-SMTP_USER = "b34e42697ead79"
+# Configuración de Mailtrap para pruebas
+SMTP_SERVER   = "sandbox.smtp.mailtrap.io"
+SMTP_PORT     = 2525
+SMTP_USER     = "b34e42697ead79"
 SMTP_PASSWORD = "7a4b577288a4c0"
 
 def get_students_table():
@@ -49,21 +49,19 @@ def get_students_table():
 def send_verification_code(email, code):
     try:
         subject = "Código de verificación - Sistema Académico UTEC"
-        body = f"""
-        Estimado usuario,
+        body = f"""Estimado usuario,
 
-        Su código de verificación es: {code}
+Su código de verificación es: {code}
 
-        Este código es válido por 5 minutos. No comparta este código con nadie.
+Este código es válido por 5 minutos. No comparta este código con nadie.
 
-        Atentamente,
-        Equipo de Sistemas UTEC
-        """
-
+Atentamente,
+Equipo de Sistemas UTEC
+"""
         msg = MIMEText(body)
         msg['Subject'] = subject
-        msg['From'] = SMTP_USER
-        msg['To'] = email
+        msg['From']    = SMTP_USER
+        msg['To']      = email
 
         with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
             server.starttls()
@@ -85,56 +83,56 @@ def login_required(f):
         return f(*args, **kwargs)
     return wrapped
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET','POST'])
 def login():
     error = None
     if request.method == 'POST':
-        email = request.form.get('email', '').strip()
-        password = request.form.get('password', '')
+        email    = request.form.get('email','').strip()
+        password = request.form.get('password','')
         user = User.query.filter_by(correo=email).first()
 
         if user and user.contraseña == hashlib.sha256(password.encode()).hexdigest():
-            verification_code = generate_verification_code()
+            code = generate_verification_code()
             session['verification_email'] = email
-            session['verification_code'] = verification_code
-            session['code_expiration'] = time.time() + 300
+            session['verification_code']  = code
+            session['code_expiration']    = time.time() + 300
 
-            if send_verification_code(email, verification_code):
+            if send_verification_code(email, code):
                 return redirect(url_for('verify_code'))
             else:
                 error = "Error al enviar el código de verificación"
         else:
             error = "Credenciales inválidas"
+
     return render_template('login.html', error=error)
 
-@app.route('/verify-code', methods=['GET', 'POST'])
+@app.route('/verify-code', methods=['GET','POST'])
 def verify_code():
     if 'verification_email' not in session:
         return redirect(url_for('login'))
-
     email = session['verification_email']
     error = None
 
     if request.method == 'POST':
-        entered_code = request.form.get('code', '').strip()
-        stored_code = session.get('verification_code')
-        expiration = session.get('code_expiration', 0)
+        entered_code = request.form.get('code','').strip()
+        stored_code  = session.get('verification_code')
+        expiration   = session.get('code_expiration',0)
 
         if time.time() > expiration:
-            error = "El código ha expirado. Por favor inicie sesión nuevamente."
+            error = "El código ha expirado. Inicie sesión nuevamente."
         elif entered_code == stored_code:
             user = User.query.filter_by(correo=email).first()
             session['user'] = {
-                'correo': user.correo,
-                'nombre': f"{user.nombre1} {user.apellido1}",
-                'registro_id': user.registro_id
+                'correo'      : user.correo,
+                'nombre'      : f"{user.nombre1} {user.apellido1}",
+                'registro_id' : user.registro_id
             }
-            session.pop('verification_email', None)
-            session.pop('verification_code', None)
-            session.pop('code_expiration', None)
+            session.pop('verification_email')
+            session.pop('verification_code')
+            session.pop('code_expiration')
             return redirect(url_for('profile'))
         else:
-            error = "Código incorrecto. Intente nuevamente."
+            error = "Código incorrecto. Intente de nuevo."
 
     return render_template('verify_code.html', error=error, email=email)
 
@@ -142,16 +140,14 @@ def verify_code():
 def resend_code():
     if 'verification_email' not in session:
         return redirect(url_for('login'))
-
     email = session['verification_email']
-    verification_code = generate_verification_code()
-    session['verification_code'] = verification_code
-    session['code_expiration'] = time.time() + 300
+    code  = generate_verification_code()
+    session['verification_code'] = code
+    session['code_expiration']   = time.time() + 300
 
-    if send_verification_code(email, verification_code):
+    if send_verification_code(email, code):
         return render_template('verify_code.html', success="¡Nuevo código enviado!", email=email)
-    else:
-        return render_template('verify_code.html', error="Error al reenviar el código", email=email)
+    return render_template('verify_code.html', error="No se pudo reenviar el código", email=email)
 
 @app.route('/logout')
 def logout():
@@ -162,21 +158,24 @@ def logout():
 @login_required
 def profile():
     students_table = get_students_table()
-    query = students_table.select().limit(100)
+    all_cols = students_table.columns.keys()
+    cols_to_show = list(all_cols)[-18:]
+
+    # Creamos un SELECT con columnas posicionales
+    columnas = [students_table.c[c] for c in cols_to_show]
+    query = select(*columnas).select_from(students_table).limit(100)
+
     result = db.session.execute(query)
     students = [dict(row) for row in result.mappings()]
-    
-    column_names = students_table.columns.keys()
-    
-    # Obtener fecha actual formateada
+
     current_date = datetime.now().strftime("%Y.%m.%d (%H):%M:%S")
-    
-    return render_template('index.html', 
-                         section='profile', 
-                         students=students,
-                         column_names=column_names,
-                         current_date=current_date,
-                         data=data)
+
+    return render_template('index.html',
+                           section       = 'profile',
+                           students      = students,
+                           column_names  = cols_to_show,
+                           current_date  = current_date,
+                           data          = data)
 
 @app.route('/courses')
 @login_required
@@ -194,4 +193,4 @@ def payments():
     return render_template('index.html', section='payments', data=data)
 
 if __name__ == '__main__':
-    app.run(ssl_context=('cert/cert.crt', 'cert/key.pem'), debug=True)
+    app.run(ssl_context=('cert/cert.crt','cert/key.pem'), debug=True)
