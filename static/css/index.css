@@ -151,3 +151,37 @@ aside .logout {
   text-align: right;
   font-weight: bold;
 }
+/* Agregar al final del archivo */
+
+/* Badge de rol */
+.role-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  background: var(--accent);
+  color: white;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  margin-top: 0.2rem;
+}
+
+/* Estilos para admin */
+[class*="role-badge"] {
+  background: var(--accent);
+}
+
+.role-badge.admin {
+  background: #d9534f;
+}
+
+.role-badge.supervisor {
+  background: #5cb85c;
+}
+
+.role-badge.teacher {
+  background: #f0ad4e;
+}
+
+.role-badge.student {
+  background: #5bc0de;
+}

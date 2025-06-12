@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificación de Código - Sistema Académico</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}"/>
+  <style>
+    .code-inputs {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .code-inputs input {
+      width: 50px;
+      height: 60px;
+      font-size: 24px;
+      text-align: center;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+    }
+    .code-inputs input:focus {
+      border-color: #004080;
+      outline: none;
+    }
+    .resend-link {
+      margin-top: 15px;
+      text-align: center;
+    }
+    .timer {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <img src="{{ url_for('static', filename='img/utec-logo.png') }}" alt="UTEC">
+      <h2>Verificación en Dos Pasos</h2>
+      <p>Por favor ingrese el código de verificación que fue enviado a su correo institucional.</p>
+    </div>
+    
+    {% if error %}
+      <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+    
+    {% if success %}
+      <div class="alert alert-success">{{ success }}</div>
+    {% endif %}
+    
+    <form method="POST" action="{{ url_for('verify_code') }}">
+      <div class="form-group">
+        <label for="code"><i class="fa-solid fa-shield-halved"></i> Código de Verificación</label>
+        <input type="text" id="code" name="code" required autocomplete="off" pattern="\d{6}" 
+               title="Por favor ingrese un código de 6 dígitos" maxlength="6">
+      </div>
+      
+      <div class="timer" id="timer">
+        El código expirará en: <span id="countdown">5:00</span>
+      </div>
+      
+      <button type="submit" class="btn-login">
+        <i class="fa-solid fa-check"></i> Verificar
+      </button>
+      
+      <div class="resend-link">
+        <a href="{{ url_for('resend_code') }}">Reenviar código</a>
+      </div>
+      
+      <div class="text-center" style="margin-top: 1rem;">
+        <a href="{{ url_for('login') }}">Volver al login</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Contador de tiempo
+    let seconds = 300; // 5 minutos
+    
+    function updateTimer() {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+      document.getElementById('countdown').textContent = 
+        `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+      
+      if (seconds <= 0) {
+        document.querySelector('.timer').innerHTML = 
+          '<span style="color: #d9534f;">El código ha expirado</span>';
+      } else {
+        seconds--;
+        setTimeout(updateTimer, 1000);
+      }
+    }
+    
+    // Iniciar contador cuando la página cargue
+    window.onload = updateTimer;
+    
+    // Auto focus en el campo de código
+    document.getElementById('code').focus();
+    
+    // Auto-tab entre campos de código
+    document.getElementById('code').addEventListener('input', function(e) {
+      if (this.value.length === 6) {
+        this.form.submit();
+      }
+    });
+  </script>
+</body>
+</html>

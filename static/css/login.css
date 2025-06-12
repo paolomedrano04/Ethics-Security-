@@ -1,0 +1,144 @@
+:root {
+  --primary: #004080;
+  --secondary: #e0f2ff;
+  --accent: #00bfff;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f5f7fa;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.login-header img {
+  max-width: 150px;
+  margin-bottom: 1rem;
+}
+
+.login-header h2 {
+  color: var(--primary);
+  font-size: 1.5rem;
+}
+
+.login-notice {
+  background: #e0f2ff;
+  border-left: 4px solid var(--primary);
+  padding: 0.75rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.btn-login {
+  width: 100%;
+  padding: 0.8rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-login:hover {
+  background: #002b5c;
+}
+
+.alert {
+  padding: 0.8rem;
+  border-radius: 5px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.alert-danger {
+  background: #ffecec;
+  color: #d9534f;
+  border: 1px solid #f5c6cb;
+}
+
+.alert-success {
+  background: #e6f7ee;
+  color: #28a745;
+  border: 1px solid #c3e6cb;
+}
+
+/* Estilos para la página de verificación */
+.login-header p {
+  font-size: 0.95rem;
+  color: #666;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.code-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.code-inputs input {
+  width: 50px;
+  height: 60px;
+  font-size: 24px;
+  text-align: center;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+}
+
+.code-inputs input:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+.resend-link {
+  margin-top: 15px;
+  text-align: center;
+}
+
+.timer {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+}
