@@ -261,7 +261,32 @@ En caso de una brecha de seguridad, el sistema cuenta con un **plan de respuesta
 1. **Detección rápida del incidente**: Utilizando los registros de auditoría y monitoreo en tiempo real.
 2. **Aislamiento del sistema**: En caso de detección de una fuga, se desconectarán los servidores comprometidos para evitar mayores filtraciones.
 3. **Recuperación y respaldo de datos**: Se implementarán **backups** periódicos y procedimientos de **recuperación ante desastres**, asegurando que los datos puedan ser restaurados rápidamente en caso de un ataque.
-## 9. Conclusión
+
+## **8. Lecciones Aprendidas y Retrospectiva del Proyecto**
+
+### Lecciones Aprendidas
+
+- La implementación práctica de algoritmos de seguridad como `sha256` y `AES128` nos permitió comprender de manera más profunda los desafíos reales de la protección de datos en entornos académicos.
+- La anonimización efectiva de grandes volúmenes de datos requiere un equilibrio entre privacidad y utilidad, y aprendimos a diseñar transformaciones que respetan ambas.
+- La gestión de accesos por roles (Estudiante, Profesor, Supervisor, Administrador) fue clave para implementar el principio de mínimo privilegio.
+- Consolidar el trabajo en Jupyter Notebooks bien documentados dentro de una unidad compartida ayudó a mantener un flujo de trabajo colaborativo ordenado.
+
+
+### Retrospectiva del Proyecto
+
+- **Aspectos positivos**:
+  - La división de roles y tareas fue clara y bien distribuida desde el inicio.
+  - Se logró aplicar correctamente medidas de seguridad, privacidad y ética.
+  - Visualizaciones y dashboards bien estructurados, facilitando la interpretación de los KPIs.
+
+- **Oportunidades de mejora**:
+  - La planificación inicial pudo ser más detallada para evitar acumulación de tareas cerca al cierre.
+  - Incorporar métodos de cifrado más sofisticados como `bcrypt` o `argon2` para proteger los datos de forma más robusta.
+  - Automatizar más procesos mediante scripts o pipelines para aumentar eficiencia.
+  - Incorporar validaciones automáticas o tests básicos habría permitido detectar errores más rápidamente.
+
+
+## **9. Conclusión**
 
 El sistema académico ha sido diseñado con un enfoque integral de seguridad, privacidad y ética, protegiendo los datos personales y académicos de los estudiantes. Las medidas de seguridad implementadas incluyen autenticación de dos factores (2FA), encriptación de contraseñas mediante hashing, y un control de acceso basado en roles, asegurando que solo los usuarios autorizados accedan a la información pertinente.Los KPIs definidos permiten monitorear el progreso y ausencias, así como identificar áreas de mejora, mientras que las visualizaciones facilitan el análisis.
 
