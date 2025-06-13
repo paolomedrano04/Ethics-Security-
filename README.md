@@ -159,11 +159,29 @@ Para garantizar que solo usuarios autorizados accedan al sistema, se ha implemen
 
 ### 4.2 Encriptación y Hashing
 
-Las contraseñas de los usuarios se protegen mediante hashing utilizando el algoritmo bcrypt, una técnica que asegura que las contraseñas no puedan ser revertidas a su formato original. Esta protección es crucial para garantizar la confidencialidad de las credenciales de acceso, incluso en el caso de una brecha de seguridad en la base de datos. Además, se utiliza encriptación de datos en tránsito y en reposo para proteger toda la información sensible mientras se encuentra almacenada o en comunicación a través de redes.
+Para proteger las credenciales de los usuarios, se ha implementado hashing de contraseñas utilizando el algoritmo `sha256`, el cual asegura que no puedan ser revertidas a su forma original. Esta medida es esencial para salvaguardar la confidencialidad incluso en caso de una filtración de la base de datos.
+
+Además, se aplica encriptación de datos tanto en tránsito como en reposo utilizando el algoritmo AES-128. Esto garantiza que toda la información sensible esté protegida mientras es almacenada o transmitida por redes.
+
+El proceso completo de encriptación se encuentra documentado en el notebook **Encriptando**, ubicado en la carpeta `Data_Seguridad`, donde se cifran múltiples campos sensibles como género, edad, dirección, historial académico, consumo de alcohol, salud, entre otros.
+
+En cuanto al hashing, se empleó el algoritmo `sha256` para transformar las contraseñas y otros campos sensibles. Este procedimiento puede revisarse en el notebook **Hashing** de la misma carpeta. Para manejar eficientemente los más de 2.5 millones de registros, se utilizó `duckdb`, una base de datos en memoria optimizada para grandes volúmenes de datos.
+
+### 4.3 Anonimización
+
+Se aplicó un proceso de anonimización a los datos sensibles con el objetivo de reducir los riesgos de reidentificación de los individuos. Este proceso se detalla en el notebook **Anonimizacion**, ubicado en la carpeta `Data_Seguridad`.
+
+Entre las transformaciones realizadas se incluyen:
+
+- Reemplazo de categorías identificables por etiquetas genéricas o valores numéricos.
+- Agrupación de edades en rangos (por ejemplo, 15-17, 18-20, 21-22) y eliminación de la edad exacta.
+- Categorización de los niveles educativos en grupos como "Ninguno", "Básica", "Secundaria" y "Superior".
+- Reagrupación de profesiones de los padres en categorías generales como "servicio público", "salud" u "otros".
+
+Estas acciones permiten trabajar con los datos respetando principios de privacidad y ética, sin perder el valor analítico necesario para el desarrollo del proyecto.
 
 
-
-### 4.3 Gestión de Accesos Basada en Roles
+### 4.4 Gestión de Accesos Basada en Roles
 
 El sistema restringe el acceso a los datos y funcionalidades del sistema según el rol asignado a cada usuario. Los accesos han sido diseñados considerando buenas prácticas de privacidad y diferenciación de funciones:
 
@@ -207,7 +225,7 @@ El sistema restringe el acceso a los datos y funcionalidades del sistema según 
 - Los cálculos de progreso y KPIs son precomputados al inicio para mejorar la experiencia de usuario.
 - Se utilizan gráficos interactivos con Plotly y visualización HTML optimizada con Bootstrap.
 
-### **4.4 Registros de Auditoría (Logs)** 
+### **4.5 Registros de Auditoría (Logs)** 
 
 Se implementarán **registros de auditoría** para monitorear todas las actividades críticas del sistema, como accesos, modificaciones, y eliminaciones de datos. Estos registros permitirán detectar y responder rápidamente a actividades sospechosas, garantizando la integridad del sistema.
 
