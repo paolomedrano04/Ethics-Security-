@@ -1,5 +1,8 @@
 # Informe de Seguridad, Privacidad y Ética en Sistema Académico
-**Integrantes** : Paolo Medrano Terán 100% - César Pajuelo Reyes 100%
+
+**Integrantes**:
+- Paolo Medrano Terán – 100%
+- César Pajuelo – 100%
 
 
 **Curso**: Ética y seguridad de los Datos
