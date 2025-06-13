@@ -2,7 +2,7 @@
 
 **Integrantes**:
 - Paolo Medrano Terán – 100%
-- César Pajuelo – 100%
+- César Pajuelo Reyes – 100%
 
 
 **Curso**: Ética y seguridad de los Datos
