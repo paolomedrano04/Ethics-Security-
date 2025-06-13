@@ -158,7 +158,7 @@ En el sistema, las prácticas se alinean con estándares como el **GDPR** (Regla
 ## 4. Medidas de Seguridad y Protección de Datos
 
 ### 4.1 Autenticación de Dos Factores (2FA)
-Para garantizar que solo usuarios autorizados accedan al sistema, se ha implementado un mecanismo de autenticación de dos factores (2FA). Este proceso asegura que, además de la contraseña, los usuarios deban verificar su identidad mediante un código temporal enviado a su dispositivo móvil. Esta capa adicional de seguridad es esencial para proteger las cuentas de los usuarios, especialmente aquellas con roles administrativos y de supervisión, minimizando el riesgo de accesos no autorizados.
+Para garantizar que solo usuarios autorizados accedan al sistema, se ha implementado un mecanismo de autenticación de dos factores (2FA). Este proceso aplica para todos los usuarios del sistema, quienes, además de ingresar su contraseña, deben verificar su identidad mediante un código de verificación temporal enviado a su correo electrónico registrado. Esta capa adicional de seguridad fortalece la protección de las cuentas y minimiza el riesgo de accesos no autorizados.
 
 ### 4.2 Encriptación y Hashing
 
