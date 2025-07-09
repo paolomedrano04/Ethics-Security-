@@ -85,7 +85,7 @@ Como se trabajó en la primera parte del proyecto, es fundamental reflexionar so
 - **Equidad de acceso**: Un hallazgo clave del análisis de KPIs fue que solo el 10% de los estudiantes reporta tener acceso completo a recursos educativos. Esto revela una brecha digital que limita el impacto potencial de cualquier sistema predictivo. Si bien el modelo puede identificar estudiantes en riesgo, sin acceso equitativo a herramientas de mejora, las recomendaciones no se traducen en cambios reales.
 Por tanto, se enfatiza que cualquier sistema predictivo debe ir acompañado de políticas institucionales que aseguren recursos y oportunidades para todos los estudiantes por igual.
 
-Ética predictiva: Se discutió la responsabilidad institucional al utilizar predicciones sobre rendimiento académico.
+- **Ética predictiva:** Se discutió la responsabilidad institucional al utilizar predicciones sobre rendimiento académico.
 
 **Estas reflexiones se encuentran detalladas en la sección 6 del informe.**
 
